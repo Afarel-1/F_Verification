@@ -1,0 +1,273 @@
+/* --------------------
+   GLOBAL STYLES
+-------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f9ff, #eef7f6);
+  min-height: 100vh;
+}
+
+/* --------------------
+   NAVBAR
+-------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  background: #0f4c75;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.user-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.back-arrow {
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+/* --------------------
+   HOME LAYOUT
+-------------------- */
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* --------------------
+   CARDS
+-------------------- */
+.card {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: #0f172a;
+  cursor: pointer;
+
+  /* Smooth hover animation */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* --------------------
+   CARD VARIANTS
+-------------------- */
+.registration {
+  background: linear-gradient(135deg, #5b9df9, #67e8f9);
+}
+
+.certificate {
+  background: linear-gradient(135deg, #6ee7b7, #38bdf8);
+}
+
+/* --------------------
+   HOVER EFFECT
+-------------------- */
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------
+   FOOTER
+-------------------- */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* --------------------
+   WEBCAM PAGE
+-------------------- */
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  border-radius: 30px;
+  background: white;
+  border: 2px solid #22c55e;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.register-card label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.register-card input,
+.register-card select {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 2px solid #22c55e;
+  margin-bottom: 1rem;
+  outline: none;
+}
+
+/* Image buttons */
+.image-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.outline-btn {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 2px solid #22c55e;
+  cursor: pointer;
+}
+
+/* Register button */
+.register-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: #0f4c75;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+/* 
+   REGISTRATION PAGE
+-------------------- */
+
+/* Camera frame */
+.camera-frame {
+  width: 100%;
+  max-width: 420px;
+  height: 320px;
+  margin: 20px auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Preview */
+.preview-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.preview-img {
+  width: 220px;
+  border-radius: 14px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* 
+   CERTIFICATE PAGE
+-------------------- */
+.certificate-page {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.certificate-card {
+  background: white;
+  padding: 40px;
+  width: 600px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.certificate-title {
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+.certificate-image {
+  width: 150px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}

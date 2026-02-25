@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+faceenv/
+.env
+
+# Database
+database.db
+
+# Images
+captured_faces/
+
+# Node
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model files
+*.dat
+
+# Database
+*.db
+
+# Python cache
+__pycache__/
