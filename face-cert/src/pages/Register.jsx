@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
+
+import bgImage from "../assets/bg.jpg"
 
 function Register() {
   const fileInputRef = useRef(null)
@@ -14,12 +14,14 @@ function Register() {
   const [fullName, setFullName] = useState("")
   const [studentId, setStudentId] = useState("")
   const [programme, setProgramme] = useState("")
-  const [duration, setDuration] = useState("")
+  const [faculty, setFaculty] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [image, setImage] = useState(null)
   const [loading, setLoading] = useState(false)
 
   // ==================================================
-  // RESTORE FORM DATA + IMAGE WHEN PAGE LOADS
+  // RESTORE FORM DATA + IMAGE
   // ==================================================
   useEffect(() => {
     const savedForm = JSON.parse(localStorage.getItem("registerForm"))
@@ -29,7 +31,9 @@ function Register() {
       setFullName(savedForm.fullName)
       setStudentId(savedForm.studentId)
       setProgramme(savedForm.programme)
-      setDuration(savedForm.duration)
+      setFaculty(savedForm.faculty)
+      setEmail(savedForm.email)
+      setPassword(savedForm.password)
     }
 
     if (savedImage) {
@@ -48,7 +52,9 @@ function Register() {
         fullName,
         studentId,
         programme,
-        duration,
+        faculty,
+        email,
+        password,
       })
     )
   }
@@ -62,15 +68,20 @@ function Register() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
+
     if (!file) return
 
     const reader = new FileReader()
-    reader.onloadend = () => setImage(reader.result)
+
+    reader.onloadend = () => {
+      setImage(reader.result)
+    }
+
     reader.readAsDataURL(file)
   }
 
   // ============================
-  // OPEN WEBCAM
+  // OPEN CAMERA
   // ============================
   const handleTakePicture = () => {
     saveFormToStorage()
@@ -81,86 +92,130 @@ function Register() {
   // REGISTER STUDENT
   // ============================
   const handleRegister = async () => {
-    // 🔒 REQUIRED FIELDS CHECK
-    if (!fullName || !studentId || !programme || !duration || !image) {
-      alert("Please complete all fields and capture a face image ❌")
+    if (
+      !fullName ||
+      !studentId ||
+      !programme ||
+      !faculty ||
+      !email ||
+      !password ||
+      !image
+    ) {
+      alert("Please complete all fields")
       return
     }
 
     try {
       setLoading(true)
 
-      const response = await fetch("http://127.0.0.1:5000/register-student", {
+      const response = await fetch("/api/register-student", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           full_name: fullName,
           student_id: studentId,
           programme,
-          duration,
+          faculty,
+          email,
+          password,
           image,
         }),
       })
 
       const result = await response.json()
+
       setLoading(false)
-if (result.success) {
-  // Redirect to certificate page with student data
-  navigate("/certificate", {
-    state: {
-      fullName,
-      studentId,
-      programme,
-      duration,
-      image
-    }
-  })
 
-  // Clear stored form
-  localStorage.removeItem("registerForm")
+      if (result.success) {
+        navigate("/certificate", {
+          state: {
+            fullName,
+            studentId,
+            programme,
+            faculty,
+            email,
+            image,
+          },
+        })
 
-  // Optional: reset form (won’t matter after redirect)
-  setFullName("")
-  setStudentId("")
-  setProgramme("")
-  setDuration("")
-  setImage(null)
-} else {
-        alert(result.message || "Registration failed ❌")
+        localStorage.removeItem("registerForm")
+
+        setFullName("")
+        setStudentId("")
+        setProgramme("")
+        setFaculty("")
+        setEmail("")
+        setPassword("")
+        setImage(null)
+
+      } else {
+        alert(result.message || "Registration failed")
       }
+
     } catch (error) {
       setLoading(false)
-      alert("Backend not connected ❌")
+      alert("Backend not connected")
       console.error(error)
     }
   }
 
   return (
     <>
-      <Navbar />
+    
 
-      <div className="register-page">
+      <div
+        className="auth-page"
+        style={{
+          backgroundImage: `url(${bgImage})`
+        }}
+      >
         <div className="register-card">
-          <h2 className="register-title">REGISTRATION</h2>
+
+          <h2 className="register-title">
+            Student Registration
+          </h2>
 
           <label>Full Name *</label>
-          <input value={fullName} onChange={(e)=>setFullName(e.target.value)} />
+          <input
+            value={fullName}
+            onChange={(e)=>setFullName(e.target.value)}
+          />
 
           <label>Student ID *</label>
-          <input value={studentId} onChange={(e)=>setStudentId(e.target.value)} />
+          <input
+            value={studentId}
+            onChange={(e)=>setStudentId(e.target.value)}
+          />
 
           <label>Programme *</label>
-          <input value={programme} onChange={(e)=>setProgramme(e.target.value)} />
+          <input
+            value={programme}
+            onChange={(e)=>setProgramme(e.target.value)}
+          />
 
-          <label>Start Year - Completion *</label>
-          <select value={duration} onChange={(e)=>setDuration(e.target.value)}>
-            <option value="">Select duration</option>
-            <option>2022 - 2026</option>
-            <option>2023 - 2027</option>
-            <option>2024 - 2028</option>
-          </select>
+          <label>Faculty *</label>
+          <input
+            value={faculty}
+            onChange={(e)=>setFaculty(e.target.value)}
+          />
 
-          {/* Hidden file input */}
+          <label>Email *</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+          />
+
+          <label>Password *</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+          />
+
+          {/* Hidden upload */}
           <input
             type="file"
             accept="image/*"
@@ -169,32 +224,53 @@ if (result.success) {
             style={{ display: "none" }}
           />
 
+          {/* Buttons */}
           <div className="image-buttons">
-            <button className="outline-btn" onClick={handleUploadClick}>
+
+            <button
+              className="outline-btn"
+              onClick={handleUploadClick}
+            >
               Upload Image
             </button>
 
-            <button className="outline-btn" onClick={handleTakePicture}>
+            <button
+              className="outline-btn"
+              onClick={handleTakePicture}
+            >
               Take Picture
             </button>
+
           </div>
 
+          {/* Preview */}
           {image && (
             <div className="preview-section">
               <h3>Selected Photo</h3>
-              <img src={image} alt="preview" className="preview-img"/>
+
+              <img
+                src={image}
+                alt="preview"
+                className="preview-img"
+              />
             </div>
           )}
 
-          <button className="register-btn" onClick={handleRegister}>
+          {/* Register */}
+          <button
+            className="register-btn"
+            onClick={handleRegister}
+          >
             {loading ? "Registering..." : "Register"}
           </button>
+
         </div>
       </div>
 
-      <Footer />
+    
     </>
   )
 }
 
 export default Register
+

@@ -1,0 +1,658 @@
+/* =========================================
+   ADMIN PAGE
+========================================= */
+
+.admin-page{
+  display:flex;
+  min-height:100vh;
+  background:#eef2f7;
+}
+
+/* =========================================
+   MOBILE TOGGLE
+========================================= */
+
+.admin-toggle{
+  position:fixed;
+  top:20px;
+  left:20px;
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#111827;
+  color:white;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:1.2rem;
+  cursor:pointer;
+  z-index:9999;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.admin-sidebar{
+  width:270px;
+  min-width:270px;
+  height:100vh;
+  position:fixed;
+  top:0;
+  left:0;
+  background-size:cover;
+  background-position:center;
+  color:white;
+  overflow:hidden;
+  z-index:999;
+}
+
+.admin-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+}
+
+.admin-content{
+  position:relative;
+  z-index:2;
+  height:100%;
+  padding:35px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow-y:auto;
+}
+
+.admin-top h2{
+  font-size:1.9rem;
+  margin-bottom:8px;
+}
+
+.admin-top p{
+  opacity:0.8;
+  font-size:0.9rem;
+}
+
+.admin-signed-in{
+  display:block;
+  margin-top:12px;
+  color:#d1d5db;
+  font-size:0.78rem;
+  word-break:break-word;
+}
+
+.admin-permission-label{
+  display:inline-flex;
+  margin-top:8px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(37,99,235,0.35);
+  color:white;
+  font-size:0.75rem;
+  text-transform:capitalize;
+}
+
+/* MENU */
+
+.admin-menu{
+  margin-top:50px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.admin-item{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:16px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.admin-item:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.active-admin{
+  background:#2563eb;
+}
+
+.admin-item .icon{
+  flex:0 0 auto;
+  font-size:1.2rem;
+}
+
+/* =========================================
+   MAIN
+========================================= */
+
+.admin-main{
+  flex:1;
+  margin-left:270px;
+  width:calc(100% - 270px);
+  min-height:100vh;
+  padding:35px;
+  overflow:auto;
+}
+
+.icon{
+  display:inline-block;
+  vertical-align:middle;
+}
+
+/* HEADER */
+
+.admin-header{
+  margin-bottom:30px;
+}
+
+.admin-header h1{
+  font-size:2rem;
+  color:#111827;
+}
+
+.admin-header p{
+  margin-top:5px;
+  color:#6b7280;
+}
+
+/* =========================================
+   TABLE CARD
+========================================= */
+
+.table-card{
+  background:white;
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.table-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.student-count{
+  background:#2563eb;
+  color:white;
+  padding:8px 15px;
+  border-radius:10px;
+  font-size:0.9rem;
+}
+
+.admin-search{
+  width:100%;
+  max-width:420px;
+  margin-bottom:22px;
+  padding:13px 15px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  outline:none;
+  font-size:0.95rem;
+}
+
+.admin-search:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+
+/* TABLE */
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+thead{
+  background:#f3f4f6;
+}
+
+th{
+  padding:16px;
+  text-align:left;
+  font-size:0.9rem;
+  color:#374151;
+}
+
+td{
+  padding:16px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:0.95rem;
+  color:#111827;
+}
+
+tr:hover{
+  background:#f9fafb;
+}
+
+/* IMAGE */
+
+.student-image{
+  width:55px;
+  height:55px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+/* BADGE */
+
+.pending-badge{
+  background:#dbeafe;
+  color:#2563eb;
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:600;
+}
+
+.approved-badge{
+  background:#dcfce7;
+  color:#15803d;
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:600;
+}
+
+.collected-badge{
+  background:#ede9fe;
+  color:#6d28d9;
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:0.8rem;
+  font-weight:600;
+}
+
+.collect-btn{
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  background:#111827;
+  color:white;
+  cursor:pointer;
+  font-size:0.85rem;
+  font-weight:600;
+}
+
+.collect-btn:hover{
+  background:#374151;
+}
+
+.collected-text{
+  color:#15803d;
+  font-size:0.85rem;
+  font-weight:700;
+}
+
+.approve-again-btn{
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  background:#16a34a;
+  color:white;
+  cursor:pointer;
+  font-size:0.85rem;
+  font-weight:700;
+}
+
+.approve-again-btn:hover{
+  background:#15803d;
+}
+
+/* LOADING */
+
+.loading-box{
+  padding:40px;
+  text-align:center;
+  color:#6b7280;
+}
+
+.create-user-card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  margin-bottom:25px;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(160px, 1fr));
+  gap:14px;
+  align-items:end;
+}
+
+.create-user-card h3{
+  grid-column:1 / -1;
+  color:#111827;
+}
+
+.create-user-card input{
+  width:100%;
+  padding:13px 15px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  outline:none;
+  font-size:0.95rem;
+}
+
+.password-field{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.password-field input{
+  flex:1;
+  min-width:0;
+  margin-bottom:0;
+}
+
+.password-field button{
+  width:auto;
+  border:none;
+  border-radius:10px;
+  padding:13px 12px;
+  background:#111827;
+  color:white;
+  cursor:pointer;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.password-field button:hover{
+  background:#374151;
+}
+
+.create-user-card input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+
+.permissions-box{
+  grid-column:1 / -1;
+  padding:16px;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  background:#f9fafb;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(220px, 1fr));
+  gap:12px;
+}
+
+.permissions-box h4{
+  grid-column:1 / -1;
+  color:#111827;
+  margin-bottom:2px;
+}
+
+.permissions-box label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#374151;
+  font-size:0.92rem;
+  font-weight:600;
+}
+
+.permissions-box input{
+  width:18px;
+  height:18px;
+  flex:0 0 auto;
+}
+
+.permission-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.permission-tag{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eef2ff;
+  color:#3730a3;
+  font-size:0.76rem;
+  font-weight:700;
+}
+
+.create-btn,
+.delete-btn,
+.admin-logout-btn{
+  border:none;
+  border-radius:12px;
+  padding:13px 15px;
+  color:white;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.create-btn{
+  background:#2563eb;
+}
+
+.create-btn:hover{
+  background:#1d4ed8;
+}
+
+.delete-btn{
+  background:#dc2626;
+}
+
+.delete-btn:hover{
+  background:#b91c1c;
+}
+
+.admin-logout-btn{
+  width:100%;
+  background:#ef4444;
+}
+
+.admin-logout-btn:hover{
+  background:#dc2626;
+}
+
+.admin-auth-page{
+  min-height:100vh;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  position:relative;
+}
+
+.admin-auth-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.72);
+}
+
+.admin-auth-card{
+  width:100%;
+  max-width:430px;
+  position:relative;
+  z-index:2;
+  background:white;
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+}
+
+.admin-auth-card h1{
+  color:#111827;
+  margin-bottom:8px;
+}
+
+.admin-auth-card p{
+  color:#6b7280;
+  margin-bottom:24px;
+}
+
+.admin-auth-card input{
+  width:100%;
+  padding:14px 15px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  outline:none;
+  font-size:0.95rem;
+  margin-bottom:14px;
+}
+
+.admin-auth-card input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+
+.admin-auth-submit{
+  width:100%;
+  border:none;
+  border-radius:12px;
+  padding:14px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  font-weight:800;
+  margin-top:14px;
+}
+
+.admin-auth-submit:hover{
+  background:#1d4ed8;
+}
+
+.admin-auth-loading{
+  color:#6b7280;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:900px){
+
+  .admin-toggle{
+    display:flex;
+  }
+
+  .admin-sidebar{
+    position:fixed;
+    left:-100%;
+    top:0;
+    height:100vh;
+    z-index:999;
+    width:min(82vw, 270px);
+    min-width:0;
+    transition:0.4s;
+  }
+
+  .admin-open{
+    left:0;
+  }
+
+  .admin-main{
+    margin-left:0;
+    width:100%;
+    padding:90px 20px 30px;
+  }
+
+  .admin-header h1{
+    font-size:1.55rem;
+  }
+
+  .table-card,
+  .create-user-card{
+    border-radius:16px;
+    padding:18px;
+  }
+
+  .table-top{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  th,
+  td{
+    padding:12px;
+    font-size:0.85rem;
+  }
+
+  .create-user-card{
+    grid-template-columns:1fr;
+  }
+
+  .permissions-box{
+    grid-template-columns:1fr;
+  }
+
+}
+
+/* =========================================================
+APPROVE BUTTON
+========================================================= */
+
+.approve-btn{
+
+  width: 45px;
+
+  height: 45px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  margin-right: 10px;
+
+  background: rgba(0,255,0,0.15);
+
+  transition: 0.3s;
+}
+
+.approve-btn:hover{
+
+  transform: scale(1.08);
+
+  background: rgba(0,255,0,0.25);
+}
+
+/* =========================================================
+REJECT BUTTON
+========================================================= */
+
+.reject-btn{
+
+  width: 45px;
+
+  height: 45px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  background: rgba(255,0,0,0.15);
+
+  transition: 0.3s;
+}
+
+.reject-btn:hover{
+
+  transform: scale(1.08);
+
+  background: rgba(255,0,0,0.25);
+}

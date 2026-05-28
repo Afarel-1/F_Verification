@@ -1,90 +1,212 @@
-import { useRef, useEffect } from "react"
+// ======================================================
+// WEBCAM PAGE
+// FILE: src/pages/WebcamCapture.jsx
+// ======================================================
+
+import { useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
+
+import bgImage from "../assets/bg.jpg"
 
 function WebcamCapture() {
-  const videoRef = useRef(null)
-  const canvasRef = useRef(null)
+
   const navigate = useNavigate()
 
+  const videoRef = useRef(null)
+
+  const canvasRef = useRef(null)
+
+  const [loading, setLoading] = useState(false)
+
+  const [cameraError, setCameraError] = useState(false)
+
+  // =====================================
+  // START CAMERA
+  // =====================================
+
   useEffect(() => {
+
     startCamera()
-    return () => stopCamera()
+
   }, [])
 
+  // =====================================
+  // CAMERA ACCESS
+  // =====================================
+
   const startCamera = async () => {
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-      videoRef.current.srcObject = stream
-    } catch (err) {
+
+      const stream =
+        await navigator.mediaDevices.getUserMedia({
+
+          video: true,
+          audio: false
+
+        })
+
+      if (videoRef.current) {
+
+        videoRef.current.srcObject = stream
+      }
+
+    } catch (error) {
+
+      console.error(error)
+
+      setCameraError(true)
+
       alert("Please allow camera access")
-      console.error(err)
     }
   }
 
-  const stopCamera = () => {
-    const stream = videoRef.current?.srcObject
-    if (stream) stream.getTracks().forEach(track => track.stop())
-  }
+  // =====================================
+  // CAPTURE IMAGE
+  // =====================================
 
-  const handleCapture = () => {
-    const video = videoRef.current
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
+  const capturePhoto = async () => {
 
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    ctx.drawImage(video, 0, 0)
+    try {
 
-    const imageData = canvas.toDataURL("image/png")
+      setLoading(true)
 
-    localStorage.setItem("capturedFace", imageData)
-    stopCamera()
-    navigate("/register")
-  }
+      const video = videoRef.current
 
-  const handleCancel = () => {
-    stopCamera()
-    navigate("/register")
+      const canvas = canvasRef.current
+
+      const ctx = canvas.getContext("2d")
+
+      canvas.width = video.videoWidth
+
+      canvas.height = video.videoHeight
+
+      ctx.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      )
+
+      const imageData =
+        canvas.toDataURL("image/png")
+
+      // =================================
+      // VERIFY FACE
+      // =================================
+
+      const response = await fetch(
+
+        "/api/test-camera",
+
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            image: imageData
+          })
+        }
+      )
+
+      const result = await response.json()
+
+      setLoading(false)
+
+      if (result.success) {
+
+        localStorage.setItem(
+          "capturedFace",
+          imageData
+        )
+
+        alert("Face captured successfully")
+
+        navigate("/auth")
+
+      } else {
+
+        alert(
+          result.message ||
+          "Face not detected"
+        )
+      }
+
+    } catch (error) {
+
+      setLoading(false)
+
+      console.error(error)
+
+      alert("Backend connection failed")
+    }
   }
 
   return (
-    <>
-      <Navbar />
 
-      <div className="register-page">
-        <div className="register-card">
+    <div
+      className="auth-page"
+      style={{
+        backgroundImage: `url(${bgImage})`
+      }}
+    >
 
-          <h2 className="register-title">CAPTURE FACE</h2>
+      <div className="auth-card">
 
-          <div className="camera-frame">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="webcam-video"
-              style={{ width: "100%", borderRadius: "10px" }}
-            />
-            <canvas ref={canvasRef} style={{ display: "none" }} />
-          </div>
+        <div className="auth-form">
 
-          <div className="image-buttons">
-            <button className="register-btn" onClick={handleCapture}>
-              Capture Photo 📸
-            </button>
+          <h2>Face Registration</h2>
 
-            <button className="outline-btn" onClick={handleCancel}>
-              Cancel
-            </button>
-          </div>
+          {cameraError ? (
+
+            <p className="error-text">
+              Camera access denied
+            </p>
+
+          ) : (
+
+            <>
+              <div className="camera-frame">
+
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  className="webcam-video"
+                />
+
+                <canvas
+                  ref={canvasRef}
+                  style={{ display: "none" }}
+                />
+
+              </div>
+
+              <button
+                className="auth-btn"
+                onClick={capturePhoto}
+              >
+
+                {loading
+                  ? "Processing..."
+                  : "Capture Face"}
+
+              </button>
+            </>
+          )}
 
         </div>
+
       </div>
 
-      <Footer />
-    </>
+    </div>
   )
 }
 
 export default WebcamCapture
+

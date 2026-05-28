@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom"
+import Icon from "./Icon"
 
 function Navbar() {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ function Navbar() {
             className="back-arrow"
             onClick={() => navigate(-1)}
           >
-            ←
+            Back
           </span>
         )}
 
@@ -28,7 +29,9 @@ function Navbar() {
       </div>
 
       {/* Right side: User icon */}
-      <div className="user-icon">👤</div>
+      <div className="user-icon">
+        <Icon name="user" />
+      </div>
     </nav>
   )
 }

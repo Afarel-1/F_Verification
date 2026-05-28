@@ -1,0 +1,256 @@
+.request-page{
+  display:flex;
+  min-height:100vh;
+  background:#f5f7fb;
+}
+
+/* =========================================
+TOGGLE
+========================================= */
+
+.request-toggle{
+  position:fixed;
+  top:20px;
+  left:20px;
+  z-index:1200;
+  width:45px;
+  height:45px;
+  border-radius:10px;
+  background:#0f172a;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:22px;
+}
+
+/* =========================================
+SIDEBAR
+========================================= */
+
+.request-sidebar{
+  width:280px;
+  min-height:100vh;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+  transition:0.3s;
+}
+
+.request-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+}
+
+.request-sidebar-content{
+  position:relative;
+  z-index:10;
+  color:white;
+  padding:100px 30px;
+}
+
+.request-sidebar-content h2{
+  margin-bottom:40px;
+}
+
+.request-menu{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.request-item{
+  padding:15px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.request-item:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.active-request{
+  background:white;
+  color:#0f172a;
+}
+
+/* =========================================
+MAIN
+========================================= */
+
+.request-main{
+  flex:1;
+  margin-left:260px;
+  width:calc(100% - 260px);
+  min-height:100vh;
+  padding:40px;
+  box-sizing:border-box;
+}
+
+.request-header h1{
+  font-size:35px;
+  color:#0f172a;
+}
+
+.request-header p{
+  margin-top:10px;
+  color:#555;
+}
+
+/* =========================================
+CARD
+========================================= */
+
+.request-card{
+  margin-top:30px;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.webcam-section{
+  display:flex;
+  justify-content:center;
+}
+
+.webcam{
+  width:100%;
+  max-width:500px;
+  border-radius:20px;
+}
+
+.request-buttons{
+  margin-top:20px;
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.fingerprint-btn,
+.capture-btn,
+.submit-btn{
+  padding:14px 25px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.fingerprint-btn{
+  background:#0f766e;
+  color:white;
+}
+
+.capture-btn{
+  background:#0f172a;
+  color:white;
+}
+
+.submit-btn{
+  background:#2563eb;
+  color:white;
+}
+
+.submit-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+/* =========================================
+MESSAGE BOXES
+========================================= */
+
+.success-box{
+  margin-top:20px;
+  padding:15px;
+  border-radius:10px;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.error-box{
+  margin-top:20px;
+  padding:15px;
+  border-radius:10px;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.biometric-proof,
+.fingerprint-proof{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:16px;
+  border:1px solid #dbeafe;
+  border-radius:12px;
+  background:#eff6ff;
+}
+
+.fingerprint-proof{
+  border-color:#ccfbf1;
+  background:#f0fdfa;
+}
+
+.biometric-proof img,
+.fingerprint-proof img{
+  width:76px;
+  height:76px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.biometric-proof h3,
+.fingerprint-proof h3{
+  margin-bottom:6px;
+  color:#0f172a;
+}
+
+.biometric-proof p,
+.fingerprint-proof p{
+  color:#334155;
+}
+
+/* =========================================
+STUDENT INFO
+========================================= */
+
+.student-info{
+  margin-top:25px;
+  padding:20px;
+  border-radius:15px;
+  background:#f8fafc;
+}
+
+.student-info h3{
+  margin-bottom:15px;
+}
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media(max-width:900px){
+
+  .request-sidebar{
+    position:fixed;
+    left:-300px;
+    top:0;
+    z-index:1000;
+  }
+
+  .request-open{
+    left:0;
+  }
+
+  .request-main{
+    margin-left:0;
+    width:100%;
+    padding:90px 20px;
+  }
+}
