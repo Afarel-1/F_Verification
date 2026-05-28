@@ -389,8 +389,21 @@ def update_db():
     conn.commit()
     conn.close()
 
-init_db()
-update_db()
+def initialize_database():
+
+    try:
+
+        init_db()
+        update_db()
+
+    except Exception as e:
+
+        print(
+            f"Database initialization skipped: {e}",
+            flush=True
+        )
+
+initialize_database()
 
 # ============================================================
 # HOME ROUTE
