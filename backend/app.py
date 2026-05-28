@@ -11,10 +11,8 @@ import numpy as np
 import base64
 import sqlite3
 import os
-import face_recognition
 import json
 import secrets
-import io
 import urllib.request
 import urllib.error
 
@@ -80,6 +78,7 @@ USE_POSTGRES = bool(DATABASE_URL)
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "student-faces")
+FACE_MATCH_THRESHOLD = float(os.getenv("FACE_MATCH_THRESHOLD", "0.78"))
 
 DB_INTEGRITY_ERRORS = (sqlite3.IntegrityError,)
 
@@ -521,16 +520,78 @@ def frame_difference_score(first_image, second_image):
 
     return float(np.mean(difference))
 
+def crop_largest_face(image):
+
+    gray = cv2.cvtColor(
+        image,
+        cv2.COLOR_BGR2GRAY
+    )
+
+    faces = face_cascade.detectMultiScale(
+        gray,
+        scaleFactor=1.3,
+        minNeighbors=5,
+        minSize=(30, 30)
+    )
+
+    if len(faces) == 0:
+        return None
+
+    x, y, w, h = max(
+        faces,
+        key=lambda face: face[2] * face[3]
+    )
+
+    return image[
+        y:y + h,
+        x:x + w
+    ]
+
 def extract_face_encoding(image):
 
-    encodings = face_recognition.face_encodings(
+    face = crop_largest_face(
         image
     )
 
-    if len(encodings) == 0:
+    if face is None:
         return None
 
-    return encodings[0]
+    gray = cv2.cvtColor(
+        face,
+        cv2.COLOR_BGR2GRAY
+    )
+
+    resized = cv2.resize(
+        gray,
+        (96, 96)
+    )
+
+    normalized = cv2.equalizeHist(
+        resized
+    ).astype("float32")
+
+    normalized = normalized / 255.0
+    normalized = normalized.flatten()
+
+    norm = np.linalg.norm(
+        normalized
+    )
+
+    if norm == 0:
+        return None
+
+    return normalized / norm
+
+def compare_face_encodings(first_encoding, second_encoding):
+
+    similarity = float(
+        np.dot(
+            first_encoding,
+            second_encoding
+        )
+    )
+
+    return similarity >= FACE_MATCH_THRESHOLD
 
 def validate_biometric_liveness(images):
 
@@ -578,13 +639,12 @@ def validate_biometric_liveness(images):
 
     for encoding in encodings[1:]:
 
-        same_person = face_recognition.compare_faces(
-            [reference_encoding],
-            encoding,
-            tolerance=0.55
+        same_person = compare_face_encodings(
+            reference_encoding,
+            encoding
         )
 
-        if not same_person[0]:
+        if not same_person:
 
             return {
                 "success": False,
@@ -730,8 +790,14 @@ def load_stored_face_image(filename):
         if image_bytes is None:
             return None
 
-        return face_recognition.load_image_file(
-            io.BytesIO(image_bytes)
+        np_arr = np.frombuffer(
+            image_bytes,
+            np.uint8
+        )
+
+        return cv2.imdecode(
+            np_arr,
+            cv2.IMREAD_COLOR
         )
 
     image_path = os.path.join(
@@ -742,7 +808,7 @@ def load_stored_face_image(filename):
     if not os.path.exists(image_path):
         return None
 
-    return face_recognition.load_image_file(
+    return cv2.imread(
         image_path
     )
 
@@ -1042,19 +1108,19 @@ def verify():
             if stored_image is None:
                 continue
 
-            stored_encodings = face_recognition.face_encodings(
+            stored_encoding = extract_face_encoding(
                 stored_image
             )
 
-            if len(stored_encodings) == 0:
+            if stored_encoding is None:
                 continue
 
-            match = face_recognition.compare_faces(
-                [stored_encodings[0]],
+            match = compare_face_encodings(
+                stored_encoding,
                 captured_encoding
             )
 
-            if match[0]:
+            if match:
 
                 return jsonify({
                     "success": True,
