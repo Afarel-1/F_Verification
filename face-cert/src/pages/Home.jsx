@@ -69,7 +69,7 @@ function Home() {
             </h2>
 
             <p>
-              Use fingerprint and facial recognition
+              Use device biometric and facial recognition
               to securely request and collect your certificate.
             </p>
 
@@ -121,7 +121,7 @@ function Home() {
               </h4>
 
               <p>
-                Verify identity with face and fingerprint
+                Verify identity with face and device biometric
               </p>
 
             </div>

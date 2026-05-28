@@ -153,7 +153,7 @@ function RequestCertificate() {
           setVerified(false)
           setFingerprintVerified(false)
           setStudent(null)
-          setMessage("Device fingerprint verification failed")
+          setMessage("Device biometric verification failed")
 
           return
         }
@@ -163,7 +163,7 @@ function RequestCertificate() {
         localStorage.setItem("student_id", result.student.student_id)
         localStorage.setItem("student", JSON.stringify(result.student))
 
-        setMessage("Face and fingerprint biometrics verified")
+        setMessage("Face and device biometrics verified")
 
       } else {
 
@@ -191,7 +191,7 @@ function RequestCertificate() {
 
     if (!window.PublicKeyCredential) {
 
-      alert("This browser does not support fingerprint/passkey verification. Please use a phone or laptop with fingerprint support.")
+      alert("This browser does not support device biometric/passkey verification. Please use a phone or laptop with passkey support.")
 
       return false
     }
@@ -201,7 +201,7 @@ function RequestCertificate() {
 
     if (!available) {
 
-      alert("No fingerprint/passkey feature was found on this device. Please use or borrow a phone/laptop with fingerprint support.")
+      alert("No device biometric/passkey feature was found on this device.")
 
       return false
     }
@@ -355,7 +355,7 @@ function RequestCertificate() {
           </h1>
 
           <p>
-            Complete face and fingerprint biometric verification before sending request
+            Complete face and device biometric verification before sending request
           </p>
 
         </div>
@@ -385,13 +385,13 @@ function RequestCertificate() {
             <button
               className="fingerprint-btn"
               onClick={() =>
-                alert("Fingerprint prompt opens after face verification identifies the student.")
+                alert("Device biometric prompt opens after face verification identifies the student.")
               }
             >
 
               {fingerprintVerified
-                ? "Fingerprint Verified"
-                : "Fingerprint Required"}
+                ? "Device Biometric Verified"
+                : "Device Biometric Required"}
 
             </button>
 
@@ -467,13 +467,13 @@ function RequestCertificate() {
 
               <div>
                 <h3>
-                  Fingerprint Check
+                  Device Biometric Check
                 </h3>
 
                 <p>
                   {fingerprintVerified
-                    ? "Device fingerprint accepted"
-                    : "Waiting for device fingerprint prompt"}
+                    ? "Device biometric accepted"
+                    : "Waiting for device biometric prompt"}
                 </p>
               </div>
 

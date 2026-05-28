@@ -590,10 +590,26 @@ body {
 .camera-frame {
   border: 2px solid #22c55e;
   transition: all 0.3s ease;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-height: 58vh;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .camera-frame:hover {
   box-shadow: 0 0 25px rgba(34, 197, 94, 0.4);
+}
+
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 /* Title upgrade */
@@ -605,13 +621,24 @@ body {
 
 /* Responsive improvement */
 @media (max-width: 480px) {
+  .auth-page {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .auth-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
   .register-card {
     padding: 2rem 1.2rem;
     border-radius: 20px;
   }
 
   .camera-frame {
-    height: 250px;
+    aspect-ratio: 3 / 4;
+    max-height: 62vh;
   }
 
   .signature-box canvas {

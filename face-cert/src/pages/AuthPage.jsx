@@ -134,7 +134,7 @@ function AuthPage() {
   }
 
   // =====================================
-  // DEVICE FINGERPRINT REGISTRATION
+  // DEVICE BIOMETRIC / PASSKEY REGISTRATION
   // =====================================
 
   const textToBuffer = (value) =>
@@ -159,14 +159,14 @@ function AuthPage() {
 
     if (!studentId || !email || !fullName) {
 
-      alert("Enter your name, student ID, and email before registering fingerprint")
+      alert("Enter your name, student ID, and email before registering device biometric")
 
       return
     }
 
     if (!window.PublicKeyCredential) {
 
-      alert("This browser does not support device fingerprint verification. Please use a phone or laptop with fingerprint/passkey support.")
+      alert("This browser does not support device biometric verification. Please use a phone or laptop with passkey support.")
 
       return
     }
@@ -176,7 +176,7 @@ function AuthPage() {
 
     if (!available) {
 
-      alert("No fingerprint/passkey feature was found on this device. Please use or borrow a phone/laptop with fingerprint support.")
+      alert("No device biometric/passkey feature was found on this device.")
 
       return
     }
@@ -212,13 +212,13 @@ function AuthPage() {
         bufferToBase64Url(credential.rawId)
       )
 
-      alert("Fingerprint device registered successfully")
+      alert("Device biometric registered successfully")
 
     } catch (error) {
 
       console.error(error)
 
-      alert("Fingerprint registration was cancelled or failed")
+      alert("Device biometric registration was cancelled or failed")
     }
   }
 
@@ -258,7 +258,7 @@ function AuthPage() {
 
     ) {
 
-      alert("Please complete all fields, register your face, and register device fingerprint")
+      alert("Please complete all fields, register your face, and register device biometric")
 
       return
     }
@@ -626,8 +626,8 @@ function AuthPage() {
             >
 
               {fingerprintCredentialId
-                ? "Fingerprint Device Registered"
-                : "Register Fingerprint Device"}
+                ? "Device Biometric Registered"
+                : "Register Device Biometric"}
 
             </button>
 
