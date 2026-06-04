@@ -49,13 +49,20 @@ function Home() {
 
           </div>
 
-          <div className="dashboard-user">
+          <button
+            type="button"
+            className="dashboard-user profile-button"
+            onClick={() =>
+              navigate("/profile")
+            }
+            aria-label="Open student profile"
+          >
 
             <div className="user-circle">
-              U
+              👤
             </div>
 
-          </div>
+          </button>
 
         </div>
 

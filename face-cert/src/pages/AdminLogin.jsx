@@ -114,11 +114,11 @@ function AdminLogin() {
       <div className="admin-auth-overlay"></div>
 
       <div className="admin-auth-card">
-        <h1>Admin Access</h1>
+        <h1>Staff Access</h1>
 
         <p>
           {hasAdmins
-            ? "Sign in to manage certificate requests"
+            ? "Authorized staff sign in to manage certificate requests"
             : "Create the first admin account"}
         </p>
 

@@ -232,6 +232,25 @@ body {
   font-weight:700;
 }
 
+.profile-button{
+  border:none;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+}
+
+.profile-button:hover .user-circle,
+.profile-button:focus-visible .user-circle{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(15,76,117,0.22);
+}
+
+.profile-button:focus-visible{
+  outline:3px solid rgba(15,76,117,0.35);
+  outline-offset:4px;
+  border-radius:999px;
+}
+
 /* =========================================
    HERO CARD
 ========================================= */
@@ -715,46 +734,124 @@ body {
 
   background: linear-gradient(
     135deg,
-    #000814,
-    #001d3d,
-    #003566
+    #f8fbff,
+    #eef6ff
   );
 
-  color: white;
+  color: #063b88;
 }
 
 .splash-content {
   text-align: center;
-  animation: fadeIn 1.2s ease;
+  animation: splashFadeIn 0.45s ease;
 }
 
 .splash-logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-
-  background: white;
-  color: #003566;
+  width: 118px;
+  height: 118px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+}
 
-  font-size: 2rem;
-  font-weight: bold;
+.splash-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 12px 20px rgba(6, 59, 136, 0.15));
+  animation: logoPulse 0.55s ease-in-out infinite;
+}
+
+.logo-blue {
+  fill: #063b88;
+  animation: blueGoldSwap 0.28s linear infinite;
+}
+
+.logo-gold,
+.logo-flame {
+  fill: #f5aa00;
+  animation: goldBlueSwap 0.28s linear infinite;
 }
 
 .splash-content h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
+  font-family: "Kamali", "Kalam", "Palatino Linotype", serif;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  color: #063b88;
 }
 
 .splash-content p {
-  opacity: 0.8;
-  font-size: 1rem;
+  color: #f5aa00;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+@keyframes splashFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes blueGoldSwap {
+  0%,
+  49% {
+    fill: #063b88;
+  }
+
+  50%,
+  100% {
+    fill: #f5aa00;
+  }
+}
+
+@keyframes goldBlueSwap {
+  0%,
+  49% {
+    fill: #f5aa00;
+  }
+
+  50%,
+  100% {
+    fill: #063b88;
+  }
+}
+
+@media (max-width: 480px) {
+  .splash-logo {
+    width: 104px;
+    height: 104px;
+  }
+
+  .splash-content h1 {
+    font-size: 20px;
+    max-width: 280px;
+  }
 }
 
 /* ====================================
@@ -876,6 +973,12 @@ body {
   border-color: #0f4c75;
 }
 
+.auth-form select:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
 /* ====================================
    ERROR STATES
 ==================================== */
@@ -889,6 +992,13 @@ body {
 
   font-size: 0.85rem;
 
+  margin-top: -10px;
+}
+
+.helper-text {
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.4;
   margin-top: -10px;
 }
 

@@ -113,7 +113,7 @@ function AdminDashboard() {
 
     if (!admin.id) {
 
-      navigate("/admin-login")
+      navigate("/staff-access")
 
       return
     }
@@ -134,7 +134,7 @@ function AdminDashboard() {
 
     localStorage.removeItem("admin")
 
-    navigate("/admin-login")
+    navigate("/staff-access")
   }
 
   // =========================================================

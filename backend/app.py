@@ -12,6 +12,7 @@ import base64
 import sqlite3
 import os
 import json
+import re
 import secrets
 import urllib.request
 import urllib.error
@@ -850,6 +851,14 @@ def verify_password(stored_password, password):
 
         return stored_password == password
 
+def validate_password_strength(password):
+
+    return (
+        len(password) >= 8
+        and re.search(r"[A-Z]", password)
+        and re.search(r"[^A-Za-z0-9]", password)
+    )
+
 # ============================================================
 # TEST CAMERA
 # ============================================================
@@ -894,7 +903,7 @@ def signup():
         data = request.json
 
         full_name = data["full_name"]
-        student_id = data["student_id"]
+        student_id = data["student_id"].strip().upper()
         email = data["email"]
         faculty = data["faculty"]
         programme = data["programme"]
@@ -915,7 +924,7 @@ def signup():
 
             return jsonify({
                 "success": False,
-                "message": "All fields, face image, and device fingerprint setup are required"
+                "message": "All fields, face image, and device passkey setup are required"
             })
 
         if "@" not in email:
@@ -923,6 +932,20 @@ def signup():
             return jsonify({
                 "success": False,
                 "message": "Invalid email"
+            })
+
+        if student_id != data["student_id"].strip():
+
+            return jsonify({
+                "success": False,
+                "message": "Student ID must use uppercase letters"
+            })
+
+        if not validate_password_strength(password):
+
+            return jsonify({
+                "success": False,
+                "message": "Password must be at least 8 characters with an uppercase letter and a special character"
             })
 
         if not detect_face_from_base64(image_data):
@@ -1210,7 +1233,7 @@ def biometric_challenge():
 
             return jsonify({
                 "success": False,
-                "message": "This student has not registered a device fingerprint"
+                "message": "This student has not registered a device passkey"
             })
 
         challenge = create_challenge()
@@ -2265,6 +2288,13 @@ def create_admin_user():
             return jsonify({
                 "success": False,
                 "message": "All fields are required"
+            })
+
+        if not validate_password_strength(password):
+
+            return jsonify({
+                "success": False,
+                "message": "Password must be at least 8 characters with an uppercase letter and a special character"
             })
 
         permissions = [

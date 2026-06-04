@@ -74,6 +74,11 @@ function App() {
       />
 
       <Route
+        path="/staff-access"
+        element={<AdminLogin />}
+      />
+
+      <Route
         path="/admin"
         element={<AdminDashboard />}
       />

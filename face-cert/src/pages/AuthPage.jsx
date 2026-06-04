@@ -8,6 +8,42 @@ import { useNavigate } from "react-router-dom"
 
 import bgImage from "../assets/bg.jpg"
 
+const facultyProgrammes = {
+  "Faculty of Computing": [
+    "BSc Information Technology",
+    "BSc Computer Science",
+    "BSc Cyber Security",
+    "BSc Software Engineering"
+  ],
+  "Faculty of Engineering": [
+    "BEng Civil Engineering",
+    "BEng Mechanical Engineering",
+    "BEng Electrical Engineering",
+    "BEng Computer Engineering"
+  ],
+  "Faculty of Business": [
+    "BSc Business Administration",
+    "BSc Accounting",
+    "BSc Marketing",
+    "BSc Banking and Finance"
+  ],
+  "Faculty of Health Sciences": [
+    "BSc Nursing",
+    "BSc Public Health",
+    "BSc Medical Laboratory Science",
+    "BSc Health Information Management"
+  ],
+  "Faculty of Arts and Social Sciences": [
+    "BA Communication Studies",
+    "BA Economics",
+    "BA Political Science",
+    "BA Sociology"
+  ]
+}
+
+const passwordRequirement =
+  "Password must be at least 8 characters with an uppercase letter and a special character"
+
 function AuthPage() {
 
   const navigate = useNavigate()
@@ -159,14 +195,14 @@ function AuthPage() {
 
     if (!studentId || !email || !fullName) {
 
-      alert("Enter your name, student ID, and email before registering device biometric")
+      alert("Enter your name, student ID, and email before registering your device passkey")
 
       return
     }
 
     if (!window.PublicKeyCredential) {
 
-      alert("This browser does not support device biometric verification. Please use a phone or laptop with passkey support.")
+      alert("This browser does not support passkey verification. Please use a phone or laptop browser with passkey support.")
 
       return
     }
@@ -176,7 +212,7 @@ function AuthPage() {
 
     if (!available) {
 
-      alert("No device biometric/passkey feature was found on this device.")
+      alert("No device passkey was found. Your device may use fingerprint, face unlock, screen lock, PIN, or Windows Hello depending on what it supports.")
 
       return
     }
@@ -212,13 +248,13 @@ function AuthPage() {
         bufferToBase64Url(credential.rawId)
       )
 
-      alert("Device biometric registered successfully")
+      alert("Device passkey registered successfully")
 
     } catch (error) {
 
       console.error(error)
 
-      alert("Device biometric registration was cancelled or failed")
+      alert("Device passkey registration was cancelled or failed")
     }
   }
 
@@ -231,6 +267,15 @@ function AuthPage() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     return regex.test(email)
+  }
+
+  const validatePassword = (value) => {
+
+    const hasMinimumLength = value.length >= 8
+    const hasUppercase = /[A-Z]/.test(value)
+    const hasSpecialCharacter = /[^A-Za-z0-9]/.test(value)
+
+    return hasMinimumLength && hasUppercase && hasSpecialCharacter
   }
 
   // =====================================
@@ -258,7 +303,7 @@ function AuthPage() {
 
     ) {
 
-      alert("Please complete all fields, register your face, and register device biometric")
+      alert("Please complete all fields, register your face, and register your device passkey")
 
       return
     }
@@ -268,6 +313,13 @@ function AuthPage() {
     if (!validateEmail(email)) {
 
       setEmailError("Please enter a valid email")
+
+      return
+    }
+
+    if (!validatePassword(password)) {
+
+      setPasswordError(passwordRequirement)
 
       return
     }
@@ -300,7 +352,7 @@ function AuthPage() {
           body: JSON.stringify({
 
             full_name: fullName,
-            student_id: studentId,
+            student_id: studentId.trim().toUpperCase(),
             email,
             faculty,
             programme,
@@ -320,12 +372,12 @@ function AuthPage() {
 
         alert("Account created successfully 🎉")
 
-        localStorage.setItem("student_id", studentId)
+        localStorage.setItem("student_id", studentId.trim().toUpperCase())
         localStorage.setItem(
           "student",
           JSON.stringify({
             full_name: fullName,
-            student_id: studentId,
+            student_id: studentId.trim().toUpperCase(),
             email,
             faculty,
             programme
@@ -496,7 +548,7 @@ function AuthPage() {
               placeholder="Student ID"
               value={studentId}
               onChange={(e) =>
-                setStudentId(e.target.value)
+                setStudentId(e.target.value.toUpperCase())
               }
             />
 
@@ -525,51 +577,43 @@ function AuthPage() {
 
             <select
               value={faculty}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFaculty(e.target.value)
-              }
+                setProgramme("")
+              }}
             >
 
               <option value="">
                 Select Faculty
               </option>
 
-              <option>
-                Faculty of Computing
-              </option>
-
-              <option>
-                Faculty of Engineering
-              </option>
-
-              <option>
-                Faculty of Business
-              </option>
+              {Object.keys(facultyProgrammes).map((facultyName) => (
+                <option key={facultyName}>
+                  {facultyName}
+                </option>
+              ))}
 
             </select>
 
             <select
               value={programme}
+              disabled={!faculty}
               onChange={(e) =>
                 setProgramme(e.target.value)
               }
             >
 
               <option value="">
-                Select Programme
+                {faculty
+                  ? "Select Programme"
+                  : "Select Faculty First"}
               </option>
 
-              <option>
-                BSc Information Technology
-              </option>
-
-              <option>
-                BSc Computer Science
-              </option>
-
-              <option>
-                BSc Cyber Security
-              </option>
+              {(facultyProgrammes[faculty] || []).map((programmeName) => (
+                <option key={programmeName}>
+                  {programmeName}
+                </option>
+              ))}
 
             </select>
 
@@ -577,9 +621,10 @@ function AuthPage() {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) =>
+              onChange={(e) => {
                 setPassword(e.target.value)
-              }
+                setPasswordError("")
+              }}
             />
 
             <input
@@ -607,6 +652,12 @@ function AuthPage() {
               </p>
             )}
 
+            {!passwordError && (
+              <p className="helper-text">
+                {passwordRequirement}
+              </p>
+            )}
+
             {/* FACE BUTTON */}
 
             <button
@@ -626,8 +677,8 @@ function AuthPage() {
             >
 
               {fingerprintCredentialId
-                ? "Device Biometric Registered"
-                : "Register Device Biometric"}
+                ? "Device Passkey Registered"
+                : "Register Device Passkey"}
 
             </button>
 

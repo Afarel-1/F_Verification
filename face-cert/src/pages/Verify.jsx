@@ -102,7 +102,7 @@ export default function Verify() {
         data.success = fingerprintOk
 
         if (!fingerprintOk) {
-          data.message = "Device biometric verification failed"
+          data.message = "Device passkey verification failed"
         }
       }
 
@@ -190,7 +190,7 @@ export default function Verify() {
 
   return (
     <div className="container">
-      <h2>Face and Device Biometric Verification</h2>
+      <h2>Face and Device Passkey Verification</h2>
 
       <video
         ref={videoRef}
@@ -205,7 +205,7 @@ export default function Verify() {
       <button onClick={startCamera}>Start Camera</button>
 
       <button onClick={captureAndVerify} style={{ marginLeft: "10px" }}>
-        Verify Face & Device Biometric
+        Verify Face & Device Passkey
       </button>
 
       {loading && <p>Verifying...</p>}
@@ -214,7 +214,7 @@ export default function Verify() {
         <div style={{ marginTop: "20px", color: "green" }}>
           <h3>Match Found</h3>
           <p>Face liveness: Passed</p>
-          <p>Device biometric: Accepted</p>
+          <p>Device passkey: Accepted</p>
           <p>Name: {result.student.full_name}</p>
           <p>ID: {result.student.student_id}</p>
           <p>Programme: {result.student.programme}</p>

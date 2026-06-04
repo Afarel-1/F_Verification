@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Webcam from "react-webcam"
 
 import Sidebar from "../components/Sidebar"
@@ -153,7 +153,7 @@ function RequestCertificate() {
           setVerified(false)
           setFingerprintVerified(false)
           setStudent(null)
-          setMessage("Device biometric verification failed")
+          setMessage("Device passkey verification failed")
 
           return
         }
@@ -385,13 +385,13 @@ function RequestCertificate() {
             <button
               className="fingerprint-btn"
               onClick={() =>
-                alert("Device biometric prompt opens after face verification identifies the student.")
+                alert("Your device passkey prompt opens after face verification identifies the student. It may use fingerprint, face unlock, PIN, or your browser's security prompt.")
               }
             >
 
               {fingerprintVerified
-                ? "Device Biometric Verified"
-                : "Device Biometric Required"}
+                ? "Device Passkey Verified"
+                : "Device Passkey Required"}
 
             </button>
 
@@ -467,13 +467,13 @@ function RequestCertificate() {
 
               <div>
                 <h3>
-                  Device Biometric Check
+                  Device Passkey Check
                 </h3>
 
                 <p>
                   {fingerprintVerified
-                    ? "Device biometric accepted"
-                    : "Waiting for device biometric prompt"}
+                    ? "Device passkey accepted"
+                    : "Waiting for device passkey prompt"}
                 </p>
               </div>
 
