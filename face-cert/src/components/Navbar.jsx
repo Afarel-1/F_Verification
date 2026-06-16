@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom"
 import Icon from "./Icon"
+import appLogo from "../assets/facial logo.png"
 
 function Navbar() {
   const navigate = useNavigate()
@@ -24,7 +25,10 @@ function Navbar() {
           className="logo clickable"
           onClick={() => navigate("/")}
         >
-          LOGO
+          <img
+            src={appLogo}
+            alt="Pentvars Certificate Verification"
+          />
         </div>
       </div>
 

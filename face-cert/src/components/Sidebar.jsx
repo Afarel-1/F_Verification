@@ -6,6 +6,7 @@ import {
 } from "react-router-dom"
 
 import bgImage from "../assets/bg.jpg"
+import appLogo from "../assets/facial logo.png"
 import Icon from "./Icon"
 
 import "../styles/sidebar.css"
@@ -115,9 +116,11 @@ function Sidebar() {
 
             <div className="sidebar-top">
 
-              <h2 className="sidebar-logo">
-                CERTIFY
-              </h2>
+              <img
+                className="sidebar-logo"
+                src={appLogo}
+                alt="Pentvars Certificate Verification"
+              />
 
               <p className="sidebar-subtitle">
                 Student Verification System

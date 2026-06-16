@@ -32,9 +32,11 @@
 }
 
 .sidebar-logo {
-  color: white;
-  font-size: 30px;
-  margin-bottom: 5px;
+  width: 104px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+  object-fit: contain;
 }
 
 .sidebar-subtitle {

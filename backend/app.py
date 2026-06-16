@@ -17,6 +17,8 @@ import secrets
 import urllib.request
 import urllib.error
 
+import click
+
 from datetime import datetime
 from urllib.parse import quote
 
@@ -2395,6 +2397,163 @@ def delete_admin_user(id):
             "success": False,
             "message": str(e)
         })
+
+# ============================================================
+# BACKEND ADMIN / DATA COMMANDS
+# ============================================================
+
+def clean_local_storage_folder(folder_path):
+
+    if not os.path.isdir(folder_path):
+
+        return 0
+
+    deleted_count = 0
+
+    for name in os.listdir(folder_path):
+
+        file_path = os.path.join(folder_path, name)
+
+        if os.path.isfile(file_path):
+
+            os.remove(file_path)
+            deleted_count += 1
+
+    return deleted_count
+
+@app.cli.command("reset-test-data")
+@click.option(
+    "--include-admins",
+    is_flag=True,
+    help="Also delete all admin users."
+)
+def reset_test_data(include_admins):
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if USE_POSTGRES:
+
+        tables = "messages, students, admin_users" if include_admins else "messages, students"
+
+        cursor.execute(f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE")
+
+    else:
+
+        cursor.execute("DELETE FROM messages")
+        cursor.execute("DELETE FROM students")
+
+        sequence_tables = ["messages", "students"]
+
+        if include_admins:
+
+            cursor.execute("DELETE FROM admin_users")
+            sequence_tables.append("admin_users")
+
+        placeholders = ", ".join("?" for _ in sequence_tables)
+
+        cursor.execute(
+            f"DELETE FROM sqlite_sequence WHERE name IN ({placeholders})",
+            sequence_tables
+        )
+
+    conn.commit()
+    conn.close()
+
+    deleted_faces = clean_local_storage_folder(FACES_FOLDER)
+    deleted_fingerprints = clean_local_storage_folder(
+        os.path.join(BASE_DIR, "captured_fingerprints")
+    )
+
+    click.echo("Test student and message data deleted.")
+    click.echo(f"Deleted {deleted_faces} local face file(s).")
+    click.echo(f"Deleted {deleted_fingerprints} local fingerprint file(s).")
+
+    if include_admins:
+
+        click.echo("Admin users deleted too.")
+
+@app.cli.command("seed-admin")
+@click.option("--name", required=True, help="Admin full name.")
+@click.option("--email", required=True, help="Admin email address.")
+@click.option("--password", required=True, help="Admin password.")
+@click.option(
+    "--role",
+    default="super_admin",
+    type=click.Choice(
+        ["super_admin", "user_manager", "request_manager", "viewer"]
+    ),
+    show_default=True,
+    help="Admin permission role."
+)
+def seed_admin(name, email, password, role):
+
+    if not validate_password_strength(password):
+
+        raise click.ClickException(
+            "Password must be at least 8 characters with an uppercase letter and a special character"
+        )
+
+    permissions = permissions_from_role(role)
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT id
+    FROM admin_users
+    WHERE LOWER(email) = LOWER(?)
+    """, (email,))
+
+    existing_admin = cursor.fetchone()
+
+    if existing_admin:
+
+        cursor.execute("""
+        UPDATE admin_users
+        SET full_name = ?,
+            password = ?,
+            role = ?,
+            permissions = ?
+        WHERE id = ?
+        """, (
+            name,
+            hash_password(password),
+            role,
+            json.dumps(permissions),
+            existing_admin["id"]
+        ))
+
+        action = "updated"
+
+    else:
+
+        cursor.execute("""
+        INSERT INTO admin_users(
+            full_name,
+            email,
+            password,
+            role,
+            permissions,
+            created_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+        """, (
+            name,
+            email,
+            hash_password(password),
+            role,
+            json.dumps(permissions),
+            created_at
+        ))
+
+        action = "created"
+
+    conn.commit()
+    conn.close()
+
+    click.echo(f"Admin {action}: {email} ({role})")
 
 # ============================================================
 # RUN SERVER

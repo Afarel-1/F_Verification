@@ -28,11 +28,18 @@ body {
 }
 
 .logo {
-  background: #0f4c75;
-  color: white;
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
-  font-weight: 600;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .user-icon {
@@ -124,8 +131,10 @@ body {
 }
 
 .sidebar-logo{
-  font-size:2rem;
-  font-weight:700;
+  width:96px;
+  height:auto;
+  display:block;
+  margin:0 auto;
 }
 
 .sidebar-subtitle{
@@ -758,23 +767,13 @@ body {
   margin-bottom: 18px;
 }
 
-.splash-logo svg {
+.splash-logo img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
   display: block;
   filter: drop-shadow(0 12px 20px rgba(6, 59, 136, 0.15));
   animation: logoPulse 0.55s ease-in-out infinite;
-}
-
-.logo-blue {
-  fill: #063b88;
-  animation: blueGoldSwap 0.28s linear infinite;
-}
-
-.logo-gold,
-.logo-flame {
-  fill: #f5aa00;
-  animation: goldBlueSwap 0.28s linear infinite;
 }
 
 .splash-content h1 {
@@ -815,30 +814,6 @@ body {
 
   50% {
     transform: scale(1.04);
-  }
-}
-
-@keyframes blueGoldSwap {
-  0%,
-  49% {
-    fill: #063b88;
-  }
-
-  50%,
-  100% {
-    fill: #f5aa00;
-  }
-}
-
-@keyframes goldBlueSwap {
-  0%,
-  49% {
-    fill: #f5aa00;
-  }
-
-  50%,
-  100% {
-    fill: #063b88;
   }
 }
 
