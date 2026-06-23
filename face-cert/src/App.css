@@ -520,26 +520,6 @@ body {
   font-size: 1rem;
 }
 
-.info-downloads {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.info-downloads a {
-  background: #0f4c75;
-  color: white;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.info-downloads a:hover {
-  background: #063b88;
-}
-
 .info-sections {
   display: grid;
   gap: 14px;

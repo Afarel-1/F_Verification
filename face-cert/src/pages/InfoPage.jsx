@@ -143,22 +143,6 @@ function InfoPage() {
           <p>{content.intro}</p>
         </div>
 
-        <div className="info-downloads">
-          <a
-            href="/downloads/certificate-verification-presentation.pptx"
-            download
-          >
-            Download Presentation
-          </a>
-
-          <a
-            href="/downloads/lecturer-questions-and-student-answers.docx"
-            download
-          >
-            Download Q&A Document
-          </a>
-        </div>
-
         <div className="info-sections">
           {content.sections.map((section) => (
             <article className="info-section" key={section.heading}>

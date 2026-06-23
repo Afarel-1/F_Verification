@@ -227,15 +227,6 @@ cd face-cert
 npm run build
 ```
 
-## Presentation Downloads
-
-When the frontend is running or deployed, the presentation files are available at:
-
-```text
-/downloads/certificate-verification-presentation.pptx
-/downloads/lecturer-questions-and-student-answers.docx
-```
-
 ## Security Notes
 
 - Never commit `.env` files with real secrets.
