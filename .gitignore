@@ -21,6 +21,11 @@ Thumbs.db
 # Model files
 *.dat
 
+# Generated presentation files
+presentation_assets/
+*.pptx
+*.docx
+
 # Database
 *.db
 

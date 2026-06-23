@@ -232,6 +232,38 @@ function Sidebar() {
           {/* BOTTOM */}
           <div className="sidebar-bottom">
 
+            <div className="sidebar-support-links">
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/info/faq")
+                  setSidebarOpen(false)
+                }}
+              >
+                FAQ
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/info/privacy")
+                  setSidebarOpen(false)
+                }}
+              >
+                Privacy
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/info/legal")
+                  setSidebarOpen(false)
+                }}
+              >
+                Legal
+              </button>
+            </div>
+
             <button
               className="logout-btn"
 

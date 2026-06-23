@@ -100,6 +100,27 @@
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
+.sidebar-support-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sidebar-support-links button {
+  background: transparent;
+  border: 0;
+  color: #d6d6d6;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px;
+}
+
+.sidebar-support-links button:hover {
+  color: white;
+}
+
 .logout-btn {
   width: 100%;
   padding: 15px;

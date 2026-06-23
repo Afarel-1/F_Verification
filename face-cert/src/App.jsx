@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/AdminDashboard"
 import AdminLogin from "./pages/AdminLogin"
 import Messages from "./pages/Messages"
 import Profile from "./pages/Profile"
+import InfoPage from "./pages/InfoPage"
 
 import "./App.css"
 
@@ -93,6 +94,12 @@ function App() {
       <Route
         path="/profile"
         element={<Profile />}
+      />
+
+      {/* PUBLIC INFO */}
+      <Route
+        path="/info/:page"
+        element={<InfoPage />}
       />
 
     </Routes>

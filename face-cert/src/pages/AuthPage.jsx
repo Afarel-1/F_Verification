@@ -763,6 +763,12 @@ function AuthPage() {
           </div>
         )}
 
+        <div className="auth-footer-links">
+          <a href="/info/faq">FAQ</a>
+          <a href="/info/privacy">Privacy</a>
+          <a href="/info/legal">Legal</a>
+        </div>
+
       </div>
 
     </div>
